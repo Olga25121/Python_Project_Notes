@@ -1,5 +1,4 @@
 import datetime
-from random import choice
 import controller as controller
 
 commands = [
