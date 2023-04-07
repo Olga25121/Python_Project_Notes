@@ -1,3 +1,3 @@
-import controller as controller
+import controller 
 
 controller.start()
