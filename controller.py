@@ -7,25 +7,25 @@ def start():
     choice = ''
     nb.open()
     while choice != 6:
-        choice = view.menu()
+        choice = view.main_menu()
         match choice:
             case 1:
                 new_id = nb.get_id(len(nb.note_book))
-                new_note = dict(view.create_note(new_id))
+                new_note = dict(view.create_new_note(new_id))
                 nb.new(new_note)
                 nb.save()
                 view.show_new_note(nb.note_book[-1])
             case 2:
-                view.show_all(nb.get())
+                view.show_notes(nb.get())
             case 3:
-                view.show_all(nb.get())
-                id_del = view.select_del_note()
+                view.show_notes(nb.get())
+                id_note_for_del = view.select_del_note()
                 index_note_for_del = None
                 try:
                     for j in range(len(nb.note_book)):
-                        if nb.note_book[j]['id'] == id_del:
+                        if nb.note_book[j]['id'] == id_note_for_del:
                             index_note_for_del = j
-                    confirm = view.del_confirm(nb.note_book[index_note_for_del]['title'])
+                    confirm = view.del_confirm(nb.note_book[index_note_for_del]['header'])
                     if confirm:
                         nb.delete(index_note_for_del)
                         view.view_changes()
@@ -36,26 +36,26 @@ def start():
                 except TypeError:
                     view.input_error()
             case 4:
-                view.show_all(nb.get())
-                id_note_change = view.select_change_note()
+                view.show_notes(nb.get())
+                id_note_for_change = view.select_change_note()
                 index_note_for_change = None
                 try:
                     for i in range(len(nb.note_book)):
-                        if nb.note_book[i]['id'] == id_note_change:
+                        if nb.note_book[i]['id'] == id_note_for_change:
                             index_note_for_change = i
-                    ch_note = view.modification_note(nb.note_book[index_note_for_change])
-                    nb.change(index_note_for_change, ch_note)
+                    note_change = view.modification_note(nb.note_book[index_note_for_change])
+                    nb.change(index_note_for_change, note_change)
                     nb.save()
                     view.show_change_note(nb.note_book[index_note_for_change])
                 except TypeError:
                     view.input_error()
             case 5:
-                find = view.find_date_note()
+                find = view.find_note()
                 result = nb.search(find)
                 if result:
-                    view.show_all(result)
+                    view.show_notes(result)
                 else:
-                    view.find_error()
+                    view.search_error()
             case 6:
                 view.exit_prog()
             case _:
